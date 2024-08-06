@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "date-fns": "^3.6.0",
+    "read-excel-file": "^5.8.4",
+    "write-excel-file": "^2.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.1.0",
+    "ts-node": "^10.9.2"
+  }
+}

@@ -36,7 +36,7 @@ readXlsxFile(filePath).then(async rows => {
 
     for (const row of rows) {
         // skip first row (just headers)
-        if (rowCount++ > 0) {
+        if (rowCount++ > 0 && row[0]) {
             const activityDate = row[0] as any as Date;
             const mode = row[2]?.toString();
             const duration = differenceInMinutes(row[4] as any, startDurationDate);
@@ -145,6 +145,9 @@ readXlsxFile(filePath).then(async rows => {
                         bicycleDuration += activity.duration;
                         break;
                     case "car":
+                    case "moped":
+                    case "electric bicycle":
+                    case "electric scooter":
                         driveDistance += activity.distance;
                         driveDuration += activity.duration;
                         break;
@@ -153,6 +156,11 @@ readXlsxFile(filePath).then(async rows => {
                     case "train":
                     case "metro":
                     case "taxi":
+                    case "unknown":
+                    case "tram":
+                    case "other mode":
+                    case "airplane":
+                    case "ferry/boat":
                         passengerDistance += activity.distance;
                         passengerDuration += activity.duration;
                         break;
@@ -176,48 +184,48 @@ readXlsxFile(filePath).then(async rows => {
                 value: activityDay ? '' : 'X',
                 align: "right"
             }, {
-                type: Number,
-                value: walkDuration,
+                type: String,
+                value: minutesToReadableDuration(walkDuration),
                 align: "right"
             }, {
                 type: Number,
                 value: walkDistance,
                 align: "right"
             }, {
-                type: Number,
-                value: bicycleDuration,
+                type: String,
+                value: minutesToReadableDuration(bicycleDuration),
                 align: "right"
             }, {
                 type: Number,
                 value: bicycleDistance,
                 align: "right"
             }, {
-                type: Number,
-                value: sumActiveDuration,
+                type: String,
+                value: minutesToReadableDuration(sumActiveDuration),
                 align: "right"
             }, {
                 type: Number,
                 value: sumActiveDistance,
                 align: "right"
             }, {
-                type: Number,
-                value: driveDuration,
+                type: String,
+                value: minutesToReadableDuration(driveDuration),
                 align: "right"
             }, {
                 type: Number,
                 value: driveDistance,
                 align: "right"
             }, {
-                type: Number,
-                value: passengerDuration,
+                type: String,
+                value: minutesToReadableDuration(passengerDuration),
                 align: "right"
             }, {
                 type: Number,
                 value: passengerDistance,
                 align: "right"
             }, {
-                type: Number,
-                value: sumPassiveDuration,
+                type: String,
+                value: minutesToReadableDuration(sumPassiveDuration),
                 align: "right"
             }, {
                 type: Number,
@@ -225,7 +233,6 @@ readXlsxFile(filePath).then(async rows => {
                 align: "right"
             }
         ];
-
 
         data.push(row);
         day++;
@@ -246,31 +253,31 @@ readXlsxFile(filePath).then(async rows => {
     await writeXlsxFile(data, {
         columns: [{
             width: 12
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
-        },{
+        }, {
             width: 15
         }],
         filePath: outFile

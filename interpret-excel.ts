@@ -68,6 +68,9 @@ readXlsxFile(filePath).then(async rows => {
             value: "Tag",
         },
         {
+            value: "Datum",
+        },
+        {
             value: "Ohne Aufzeichnung"
         },
         {
@@ -129,7 +132,9 @@ readXlsxFile(filePath).then(async rows => {
         let sumPassiveDuration = 0;
         let sumPassiveDistance = 0;
 
-        activityDay = activityList.find(pos => isEqual(pos.date, addDays(startDate, day - 1)))
+        const dateCounter = addDays(startDate, day - 1);
+        
+        activityDay = activityList.find(pos => isEqual(pos.date, dateCounter))
 
         if (activityDay) {
             activityDaysCount++;
@@ -141,12 +146,12 @@ readXlsxFile(filePath).then(async rows => {
                         walkDuration += activity.duration;
                         break;
                     case "bicycle":
+                    case "electric bicycle":
                         bicycleDistance += activity.distance;
                         bicycleDuration += activity.duration;
                         break;
                     case "car":
                     case "moped":
-                    case "electric bicycle":
                     case "electric scooter":
                         driveDistance += activity.distance;
                         driveDuration += activity.duration;
@@ -156,9 +161,7 @@ readXlsxFile(filePath).then(async rows => {
                     case "train":
                     case "metro":
                     case "taxi":
-                    case "unknown":
                     case "tram":
-                    case "other mode":
                     case "airplane":
                     case "ferry/boat":
                         passengerDistance += activity.distance;
@@ -179,6 +182,11 @@ readXlsxFile(filePath).then(async rows => {
                 type: Number,
                 value: day,
                 align: "right"
+            }, {
+                type: Date,
+                value: dateCounter,
+                align: "right",
+                format: 'dd.mm.yyyy'
             }, {
                 type: String,
                 value: activityDay ? '' : 'X',
@@ -252,6 +260,8 @@ readXlsxFile(filePath).then(async rows => {
 
     await writeXlsxFile(data, {
         columns: [{
+            width: 12
+        }, {
             width: 12
         }, {
             width: 15

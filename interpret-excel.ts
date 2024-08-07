@@ -276,7 +276,7 @@ readXlsxFile(filePath).then(async rows => {
         }, {
             width: 15
         }, {
-            width: 15
+            width: 18
         }, {
             width: 15
         }, {
@@ -288,7 +288,7 @@ readXlsxFile(filePath).then(async rows => {
         }, {
             width: 15
         }, {
-            width: 15
+            width: 18
         }],
         filePath: outFile
     })
